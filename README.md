@@ -37,6 +37,11 @@ Website thiệp mời tốt nghiệp dạng tĩnh (nền kem ivory + vàng đồ
   `enabled` (bật/tắt hẳn), `autoplay` (tự phát khi mở thiệp), `volume` (0–1).
 - Nhận xác nhận RSVP: cấu hình `config.form` trong `script.js` — xem mục "Nhận RSVP về đâu" bên dưới.
 - Ảnh nền/gallery: thay các link ảnh `images.unsplash.com` trong `index.html` và `styles.css` bằng ảnh của bạn.
+- Bộ chữ: khai báo ở đầu `styles.css` (nhớ sửa cả link Google Fonts trong `index.html`).
+  - `--display` Playfair Display: tiêu đề lớn, con số ngày/đếm ngược.
+  - `--serif` Lora: thân bài. `--sans` Be Vietnam Pro: nhãn nhỏ, nút. `--script` Great Vibes: chữ viết tay.
+  - Cả bốn đều có bảng dấu tiếng Việt vẽ riêng — đổi sang font khác thì kiểm tra chữ "ế", "ộ", "ữ" trước.
+  - Playfair không có nét 300, nét mảnh nhất là 400.
 - Màu sắc: sửa các biến ở đầu `styles.css`.
   - `--paper*`: các sắc nền kem.
   - `--gold-ink*`: vàng dùng làm **chữ trên nền sáng** — cố tình đậm để đủ tương phản.
