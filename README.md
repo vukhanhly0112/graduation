@@ -7,7 +7,7 @@ Website thiệp mời tốt nghiệp dạng tĩnh (nền kem ivory + vàng đồ
 - Không cần backend hoặc build tool.
 - Mở trực tiếp được bằng trình duyệt.
 - Deploy miễn phí rất dễ trên GitHub Pages.
-- Phù hợp cho thiệp mời cá nhân, form xác nhận và gallery ảnh.
+- Phù hợp cho thiệp mời cá nhân và form xác nhận tham dự.
 
 ## Có gì trong trang
 
@@ -21,7 +21,6 @@ Website thiệp mời tốt nghiệp dạng tĩnh (nền kem ivory + vàng đồ
 | Đếm ngược | Ngày/giờ/phút/giây tới buổi lễ, số đổi có hiệu ứng mờ-nét |
 | Thông tin | 3 thẻ nghiêng 3D theo chuột, có vệt sáng đi theo con trỏ |
 | RSVP | Form xác nhận có kiểm tra dữ liệu, gửi online hoặc mở email |
-| Gallery | Lưới ảnh không đều, lightbox có chuyển ảnh bằng phím/vuốt |
 | Địa điểm | Bản đồ Google Maps nhúng ở cuối trang, kèm nút mở chỉ đường |
 | Xuyên suốt | Con trỏ tuỳ chỉnh, nút nam châm, cuộn quán tính, lớp bụi vàng, hạt nhiễu (grain), aurora nền |
 
@@ -36,7 +35,7 @@ Website thiệp mời tốt nghiệp dạng tĩnh (nền kem ivory + vàng đồ
 - Nhạc nền: thay file `music.mp3` ở cùng thư mục. Tinh chỉnh trong `config.music` (`script.js`):
   `enabled` (bật/tắt hẳn), `autoplay` (tự phát khi mở thiệp), `volume` (0–1).
 - Nhận xác nhận RSVP: cấu hình `config.form` trong `script.js` — xem mục "Nhận RSVP về đâu" bên dưới.
-- Ảnh nền/gallery: thay các link ảnh `images.unsplash.com` trong `index.html` và `styles.css` bằng ảnh của bạn.
+- Ảnh nền: thay các link ảnh `images.unsplash.com` trong `styles.css` (nền hero và nền khối RSVP) bằng ảnh của bạn.
 - Bộ chữ: khai báo ở đầu `styles.css` (nhớ sửa cả link Google Fonts trong `index.html`).
   - `--display` Playfair Display: tiêu đề lớn, con số ngày/đếm ngược.
   - `--serif` Lora: thân bài. `--sans` Be Vietnam Pro: nhãn nhỏ, nút. `--script` Great Vibes: chữ viết tay.
@@ -129,8 +128,10 @@ Web3Forms loại luôn.
 - Các animation nền chỉ đổi `opacity`/`translate`. Tránh animate `scale` hay `mask-image`
   trên phần tử lớn vì trình duyệt phải raster lại cả lớp ở mỗi khung hình.
 - Chữ đã được kiểm tra tương phản theo chuẩn WCAG AA.
-- Bố cục điện thoại (≤620px) được nén lại riêng: thẻ thông tin nằm ngang, đếm ngược giữ 1 hàng,
-  gallery xếp lưới 2 cột, chú thích ảnh luôn hiện vì màn cảm ứng không có hover.
+- Chữ vàng dùng `background-clip: text`, nghĩa là nét nào tràn ra ngoài khung phần tử sẽ mất màu.
+  Với font viết tay (nét vươn cao, thòng sâu) phải nới khung bằng `padding-block` rồi trừ lại
+  đúng chừng ấy `margin` — xem `.gate-card h2` và `.h1-script`.
+- Bố cục điện thoại (≤620px) được nén lại riêng: thẻ thông tin nằm ngang, đếm ngược giữ 1 hàng.
 - Liên hệ ở footer đi kèm icon và nhãn thay vì in nguyên đường link; Facebook nhúng thẳng vào icon.
 - Trình duyệt chặn phát tiếng trước khi người dùng thao tác, nên nhạc chỉ bắt đầu từ cú bấm
   "Mở thiệp mời" (hoặc thao tác đầu tiên khi vào bằng `?preview=1`), rồi tăng âm dần thay vì bật đột ngột.

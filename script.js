@@ -86,18 +86,10 @@ const celebrationCanvas = $("#celebrationCanvas");
 const ambientContext = ambientCanvas.getContext("2d");
 const confettiContext = celebrationCanvas.getContext("2d");
 
-const galleryGrid = $("#galleryGrid");
-const galleryItems = $$(".gallery-item", galleryGrid);
-const imageLightbox = $("#imageLightbox");
-const lightboxImage = $("#lightboxImage");
-const lightboxCaption = $("#lightboxCaption");
-const lightboxCounter = $("#lightboxCounter");
-
 const rsvpForm = $("#rsvpForm");
 const formStatus = $("#formStatus");
 
 let gateOpened = false;
-let lightboxIndex = 0;
 
 document.body.classList.add("is-locked");
 
@@ -437,7 +429,7 @@ function setupCursor() {
     pointer.y = event.clientY;
   });
 
-  const hoverSelector = "a, button, .gallery-item, .choice";
+  const hoverSelector = "a, button, .choice";
 
   // Một handler duy nhất: pointerover bắn cho mọi phần tử con nên đủ để bật/tắt trạng thái.
   document.addEventListener("pointerover", (event) => {
@@ -898,89 +890,7 @@ function setupCalendarAndMap() {
 }
 
 /* =========================================================
-   13. LIGHTBOX
-   ========================================================= */
-
-function showLightboxImage(index, animate = true) {
-  const total = galleryItems.length;
-  lightboxIndex = (index + total) % total;
-
-  const figure = galleryItems[lightboxIndex];
-  const image = $("img", figure);
-  const caption = $("figcaption", figure);
-
-  const swap = () => {
-    lightboxImage.src = image.src;
-    lightboxImage.alt = image.alt;
-    lightboxCaption.textContent = caption ? caption.textContent : image.alt;
-    lightboxCounter.textContent = `${String(lightboxIndex + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
-    imageLightbox.classList.remove("is-swapping");
-  };
-
-  if (!animate || reduceMotion) {
-    swap();
-    return;
-  }
-
-  imageLightbox.classList.add("is-swapping");
-  window.setTimeout(swap, 180);
-}
-
-function openLightbox(index) {
-  showLightboxImage(index, false);
-  imageLightbox.classList.add("is-open");
-  imageLightbox.setAttribute("aria-hidden", "false");
-  document.body.classList.add("is-locked");
-  $("#closeLightbox").focus();
-}
-
-function closeLightbox() {
-  imageLightbox.classList.remove("is-open");
-  imageLightbox.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("is-locked");
-}
-
-function setupLightbox() {
-  galleryItems.forEach((figure, index) => {
-    figure.addEventListener("click", () => openLightbox(index));
-  });
-
-  $("#closeLightbox").addEventListener("click", closeLightbox);
-  $("#lightboxPrev").addEventListener("click", () => showLightboxImage(lightboxIndex - 1));
-  $("#lightboxNext").addEventListener("click", () => showLightboxImage(lightboxIndex + 1));
-
-  imageLightbox.addEventListener("click", (event) => {
-    if (event.target === imageLightbox || event.target.classList.contains("lightbox-stage")) {
-      closeLightbox();
-    }
-  });
-
-  // vuốt trái/phải trên mobile
-  let touchStartX = 0;
-
-  imageLightbox.addEventListener(
-    "touchstart",
-    (event) => {
-      touchStartX = event.changedTouches[0].clientX;
-    },
-    { passive: true }
-  );
-
-  imageLightbox.addEventListener(
-    "touchend",
-    (event) => {
-      const delta = event.changedTouches[0].clientX - touchStartX;
-
-      if (Math.abs(delta) > 60) {
-        showLightboxImage(lightboxIndex + (delta < 0 ? 1 : -1));
-      }
-    },
-    { passive: true }
-  );
-}
-
-/* =========================================================
-   14. CLICK SPARK
+   13. CLICK SPARK
    ========================================================= */
 
 function createClickSpark(event) {
@@ -1156,7 +1066,7 @@ function setupForm() {
 }
 
 /* =========================================================
-   16. NHẠC NỀN
+   15. NHẠC NỀN
    ========================================================= */
 
 const bgMusic = $("#bgMusic");
@@ -1278,7 +1188,7 @@ function armMusicAutoplay() {
 }
 
 /* =========================================================
-   17. KHỞI ĐỘNG
+   16. KHỞI ĐỘNG
    ========================================================= */
 
 function init() {
@@ -1292,7 +1202,6 @@ function init() {
   setupCursor();
   setupMagnetic();
   setupTilt();
-  setupLightbox();
   setupForm();
   setupCalendarAndMap();
   setupMusic();
@@ -1323,33 +1232,18 @@ function init() {
   });
 
   window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      if (imageLightbox.classList.contains("is-open")) {
-        closeLightbox();
-        return;
-      }
-
-      if (!gateOpened) {
-        openInvitation();
-        return;
-      }
-
-      if (document.body.classList.contains("nav-open")) {
-        document.body.classList.remove("nav-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      }
-    }
-
-    if (!imageLightbox.classList.contains("is-open")) {
+    if (event.key !== "Escape") {
       return;
     }
 
-    if (event.key === "ArrowLeft") {
-      showLightboxImage(lightboxIndex - 1);
+    if (!gateOpened) {
+      openInvitation();
+      return;
     }
 
-    if (event.key === "ArrowRight") {
-      showLightboxImage(lightboxIndex + 1);
+    if (document.body.classList.contains("nav-open")) {
+      document.body.classList.remove("nav-open");
+      navToggle.setAttribute("aria-expanded", "false");
     }
   });
 
