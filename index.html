@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fffaf2" />
+    <title>Thiệp mời lễ tốt nghiệp · Vũ Khánh Ly</title>
+    <meta
+      name="description"
+      content="Lễ tốt nghiệp Vũ Khánh Ly · 08:00 ngày 08.08.2026 · Trường Đại học Kinh tế - Kỹ thuật Công nghiệp, 218 Lĩnh Nam, Hoàng Mai, Hà Nội."
+    />
+
+    <!-- Xem trước khi gửi link qua Messenger / Zalo -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Thiệp mời lễ tốt nghiệp · Vũ Khánh Ly" />
+    <meta
+      property="og:description"
+      content="08:00 · 08.08.2026 · Trường Đại học Kinh tế - Kỹ thuật Công nghiệp. Mình rất mong có bạn ở đó!"
+    />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=80"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ============ PRELOADER ============ -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <div class="preloader-aura"></div>
+      <div class="preloader-inner">
+        <span class="preloader-mark">G</span>
+        <p class="preloader-kicker">Graduation Ceremony</p>
+        <div class="preloader-bar"><i id="preloaderBar"></i></div>
+        <span class="preloader-count"><b id="preloaderCount">0</b>%</span>
+      </div>
+      <div class="preloader-curtain"></div>
+    </div>
+
+    <!-- ============ ATMOSPHERE LAYERS ============ -->
+    <div class="aurora" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <canvas class="ambient-canvas" id="ambientCanvas" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <canvas class="celebration-canvas" id="celebrationCanvas" aria-hidden="true"></canvas>
+
+    <div class="cursor" id="cursor" aria-hidden="true">
+      <span class="cursor-ring" id="cursorRing"><em id="cursorLabel"></em></span>
+      <span class="cursor-dot" id="cursorDot"></span>
+    </div>
+
+    <div class="scroll-progress" aria-hidden="true"><i id="scrollProgress"></i></div>
+
+    <!-- ============ NHẠC NỀN ============ -->
+    <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
+    <button
+      class="music-toggle"
+      id="musicToggle"
+      type="button"
+      aria-pressed="false"
+      aria-label="Bật hoặc tắt nhạc nền"
+      title="Nhạc nền"
+      data-cursor="Nhạc"
+    >
+      <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <svg class="music-muted" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M11 5.5 6.8 9H4v6h2.8L11 18.5v-13Z" />
+        <path d="m15.5 10 4 4m0-4-4 4" />
+      </svg>
+    </button>
+
+    <!-- ============ GATE ============ -->
+    <div
+      class="invitation-gate"
+      id="invitationGate"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="gateTitle"
+    >
+      <div class="gate-frame" aria-hidden="true"></div>
+      <div class="envelope-scene">
+        <div class="envelope" aria-hidden="true">
+          <div class="envelope-back"></div>
+          <div class="envelope-letter"><span>Save the date</span></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-front"></div>
+          <div class="wax">
+            <span class="wax-half wax-left"></span>
+            <span class="wax-half wax-right"></span>
+            <span class="wax-mark">G</span>
+          </div>
+        </div>
+
+        <div class="gate-card">
+          <span class="gate-mark" aria-hidden="true">G</span>
+          <p class="gate-kicker">A personal invitation</p>
+          <h2 id="gateTitle" class="gold-text">Graduation</h2>
+          <p class="gate-note">
+            Trân trọng mời bạn đến dự lễ tốt nghiệp của mình<br />
+            <b>08:00 · Thứ Bảy, 08 . 08 . 2026</b>
+          </p>
+          <button class="btn btn-gold magnetic" id="openInvitation" type="button" data-cursor="Mở">
+            <span>Mở thiệp mời</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HEADER ============ -->
+    <header class="site-header" id="siteHeader" aria-label="Thanh điều hướng">
+      <a class="brand" href="#home" aria-label="Graduation invitation" data-cursor="Về đầu">
+        <span class="brand-mark">G</span>
+        <span class="brand-text">
+          <strong>Graduation</strong>
+          <small>Invitation</small>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Liên kết chính">
+        <a href="#home">Trang chủ</a>
+        <a href="#details">Thông tin</a>
+        <a href="#rsvp">Tham dự</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#location">Địa điểm</a>
+        <a href="#contact">Liên hệ</a>
+        <i class="nav-indicator" id="navIndicator" aria-hidden="true"></i>
+      </nav>
+
+      <a class="btn btn-gold btn-sm magnetic header-action" href="#rsvp" data-cursor="RSVP">
+        <span>Xác nhận tham dự</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Mở menu" aria-expanded="false">
+        <i></i><i></i>
+      </button>
+    </header>
+
+    <!-- ============ SMOOTH SCROLL WRAPPER ============ -->
+    <div class="smooth-wrapper" id="smoothWrapper">
+      <div class="smooth-content" id="smoothContent">
+        <main id="home">
+          <!-- ---------- HERO ---------- -->
+          <section class="hero">
+            <div class="hero-media" aria-hidden="true">
+              <div class="hero-image" data-parallax="0.18"></div>
+              <div class="hero-scrim"></div>
+            </div>
+
+            <div class="hero-rings" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+
+            <div class="hero-copy">
+              <p class="eyebrow reveal-up">Thiệp mời lễ tốt nghiệp</p>
+              <p class="script hero-script" data-wipe>Save the date</p>
+
+              <h1>
+                <span class="h1-main" data-split="chars">Graduation</span>
+                <span class="h1-script gold-text" data-wipe>Ceremony</span>
+              </h1>
+
+              <p class="hero-subtitle reveal-up">Vũ Khánh Ly</p>
+              <div class="ornament reveal-up" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+
+              <p class="hero-note reveal-up">
+                Trân trọng kính mời bạn đến chung vui cùng mình.
+              </p>
+
+              <div class="event-card reveal-up" aria-label="Thông tin buổi lễ">
+                <p class="event-time">08:00 - 12:00, Thứ Bảy</p>
+
+                <p class="event-date">
+                  <span>Tháng 08</span>
+                  <b>08</b>
+                  <span>Năm 2026</span>
+                </p>
+
+                <p class="event-place">
+                  <small>Tại địa điểm:</small>
+                  <strong>Trường Đại học<br />Kinh tế - Kỹ thuật Công nghiệp</strong>
+                  <span>Số 218 Lĩnh Nam, Hoàng Mai, Hà Nội</span>
+                </p>
+
+                <a
+                  class="event-map"
+                  href="https://www.google.com/maps/search/?api=1&amp;query=Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20Kinh%20t%E1%BA%BF%20K%E1%BB%B9%20thu%E1%BA%ADt%20C%C3%B4ng%20nghi%E1%BB%87p%2C%20218%20L%C4%A9nh%20Nam%2C%20Ho%C3%A0ng%20Mai%2C%20H%C3%A0%20N%E1%BB%99i"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor="Bản đồ"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 10.3c0 5-7 11.2-7 11.2s-7-6.2-7-11.2a7 7 0 1 1 14 0Z" />
+                    <circle cx="12" cy="10.2" r="2.5" />
+                  </svg>
+                  <span>Xem chỉ đường</span>
+                </a>
+              </div>
+
+              <div class="hero-actions reveal-up">
+                <a class="btn btn-gold magnetic" href="#rsvp" data-cursor="RSVP"><span>Xác nhận tham dự</span></a>
+                <a class="btn btn-ghost magnetic" href="#details" data-cursor="Xem"><span>Xem thông tin</span></a>
+              </div>
+            </div>
+
+            <div class="hero-quote" aria-label="Lời nhắn">
+              <span aria-hidden="true">“</span>
+              <p>The best<br />is yet<br />to come.</p>
+            </div>
+
+            <a class="scroll-cue" href="#countdown" aria-label="Cuộn xuống">
+              <span>Scroll</span>
+              <i></i>
+            </a>
+          </section>
+
+          <!-- ---------- MARQUEE ---------- -->
+          <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+              <span>Graduation Ceremony</span><b>◆</b>
+              <span>08 . 08 . 2026</span><b>◆</b>
+              <span>The best is yet to come</span><b>◆</b>
+              <span>Class of 2026</span><b>◆</b>
+              <span>Graduation Ceremony</span><b>◆</b>
+              <span>08 . 08 . 2026</span><b>◆</b>
+              <span>The best is yet to come</span><b>◆</b>
+              <span>Class of 2026</span><b>◆</b>
+            </div>
+          </div>
+
+          <!-- ---------- COUNTDOWN ---------- -->
+          <section id="countdown" class="countdown section">
+            <div class="section-heading">
+              <p class="section-kicker reveal-up">Đếm ngược</p>
+              <h2 class="gold-text reveal-up">Còn lại</h2>
+              <div class="ornament reveal-up" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+            </div>
+
+            <div class="countdown-grid" id="countdownGrid" role="timer" aria-live="off">
+              <div class="count-cell reveal-up">
+                <b id="countDays">00</b><span>Ngày</span>
+              </div>
+              <div class="count-cell reveal-up">
+                <b id="countHours">00</b><span>Giờ</span>
+              </div>
+              <div class="count-cell reveal-up">
+                <b id="countMinutes">00</b><span>Phút</span>
+              </div>
+              <div class="count-cell reveal-up">
+                <b id="countSeconds">00</b><span>Giây</span>
+              </div>
+            </div>
+
+            <p class="countdown-note reveal-up" id="countdownNote">
+              đến buổi lễ tốt nghiệp · 08:00, 08 tháng 08 năm 2026
+            </p>
+
+            <div class="countdown-actions reveal-up">
+              <button class="btn btn-ghost magnetic" id="addToCalendar" type="button" data-cursor="Lưu">
+                <span>Thêm vào lịch</span>
+              </button>
+              <a class="btn btn-ghost magnetic" id="openMap" href="#" target="_blank" rel="noreferrer" data-cursor="Bản đồ">
+                <span>Chỉ đường</span>
+              </a>
+            </div>
+          </section>
+
+          <!-- ---------- DETAILS ---------- -->
+          <section id="details" class="details section">
+            <div class="section-heading">
+              <p class="section-kicker reveal-up">Thông tin</p>
+              <h2 class="gold-text reveal-up">Buổi lễ</h2>
+              <div class="ornament reveal-up" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+            </div>
+
+            <div class="detail-grid">
+              <article class="detail-card tilt-card reveal-up">
+                <div class="detail-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8.6" />
+                    <path d="M12 7.1V12l3.3 2.1" />
+                  </svg>
+                </div>
+                <h3>Thời gian</h3>
+                <p>08:00 - 12:00</p>
+                <strong class="gold-text">08 . 08 . 2026</strong>
+                <span>Thứ Bảy</span>
+              </article>
+
+              <article class="detail-card tilt-card reveal-up">
+                <div class="detail-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M19 10.3c0 5-7 11.2-7 11.2s-7-6.2-7-11.2a7 7 0 1 1 14 0Z" />
+                    <circle cx="12" cy="10.2" r="2.5" />
+                  </svg>
+                </div>
+                <h3>Địa điểm</h3>
+                <p>Hội trường lớn</p>
+                <strong class="gold-text">ĐH Kinh tế - Kỹ thuật Công nghiệp</strong>
+                <span>Số 218 Lĩnh Nam, Hoàng Mai, Hà Nội</span>
+              </article>
+
+              <article class="detail-card tilt-card reveal-up">
+                <div class="detail-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 10.2V8.7a2.1 2.1 0 1 1 2.1-2.1" />
+                    <path d="m12 10.2-8.2 6a1.2 1.2 0 0 0 .7 2.1h15a1.2 1.2 0 0 0 .7-2.1Z" />
+                  </svg>
+                </div>
+                <h3>Trang phục</h3>
+                <p>Trang phục lịch sự</p>
+                <strong class="gold-text">Ưu tiên màu sáng</strong>
+                <span>Chụp ảnh cùng mình sau buổi lễ nhé</span>
+              </article>
+            </div>
+          </section>
+
+          <!-- ---------- RSVP ---------- -->
+          <section id="rsvp" class="rsvp-wrap reveal-up">
+            <div class="rsvp-seal" aria-hidden="true">RSVP</div>
+            <div class="rsvp-copy">
+              <p class="script gold-text">With love</p>
+              <h2>Bạn sẽ tham dự chứ?</h2>
+              <div class="ornament" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+              <p class="rsvp-lead">
+                Vui lòng xác nhận để mình có thể chuẩn bị đón tiếp bạn thật chu đáo.
+              </p>
+            </div>
+
+            <form class="rsvp-form" id="rsvpForm" novalidate>
+              <!-- Bẫy spam: người thật không thấy ô này, bot điền vào là bị loại -->
+              <input
+                class="honeypot"
+                type="checkbox"
+                name="botcheck"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+
+              <label class="field">
+                <span>Họ và tên</span>
+                <input name="name" type="text" autocomplete="name" required placeholder="Tên của bạn" />
+              </label>
+
+              <label class="field">
+                <span>Số điện thoại</span>
+                <input name="phone" type="tel" autocomplete="tel" placeholder="09xx xxx xxx" />
+              </label>
+
+              <fieldset class="field choice-field">
+                <legend>Bạn có tham dự không?</legend>
+                <div class="choice-row">
+                  <label class="choice">
+                    <input type="radio" name="attendance" value="Có, mình sẽ tham dự" required />
+                    <span>Có, mình sẽ đến</span>
+                  </label>
+                  <label class="choice">
+                    <input type="radio" name="attendance" value="Tiếc quá, mình không thể tham dự" />
+                    <span>Tiếc quá, mình bận mất</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <label class="field">
+                <span>Lời nhắn nếu có</span>
+                <textarea name="message" rows="3" placeholder="Chúc mừng cậu nhé..."></textarea>
+              </label>
+
+              <button class="btn btn-gold magnetic" type="submit" data-cursor="Gửi">
+                <span>Xác nhận tham dự</span>
+              </button>
+              <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <!-- ---------- GALLERY ---------- -->
+          <section id="gallery" class="gallery section">
+            <div class="section-heading">
+              <p class="section-kicker reveal-up">Khoảnh khắc</p>
+              <h2 class="gold-text reveal-up">Gallery</h2>
+              <div class="ornament reveal-up" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+              <figure class="gallery-item reveal-up" data-cursor="Xem">
+                <img
+                  src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?auto=format&fit=crop&w=900&q=85"
+                  alt="Nhóm sinh viên tung mũ tốt nghiệp trước sân trường"
+                  loading="lazy"
+                />
+                <figcaption>Ngày tung mũ</figcaption>
+              </figure>
+              <figure class="gallery-item reveal-up" data-cursor="Xem">
+                <img
+                  src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=85"
+                  alt="Sinh viên tung mũ tốt nghiệp lúc hoàng hôn"
+                  loading="lazy"
+                />
+                <figcaption>Hoàng hôn ngày ra trường</figcaption>
+              </figure>
+              <figure class="gallery-item reveal-up" data-cursor="Xem">
+                <img
+                  src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=900&q=85"
+                  alt="Cận cảnh mũ tốt nghiệp trong buổi lễ"
+                  loading="lazy"
+                />
+                <figcaption>Khoảnh khắc của chúng mình</figcaption>
+              </figure>
+              <figure class="gallery-item reveal-up" data-cursor="Xem">
+                <img
+                  src="https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?auto=format&fit=crop&w=900&q=85"
+                  alt="Hàng ghế sinh viên đội mũ tốt nghiệp trong hội trường"
+                  loading="lazy"
+                />
+                <figcaption>Cả khóa cùng nhau</figcaption>
+              </figure>
+              <figure class="gallery-item reveal-up" data-cursor="Xem">
+                <img
+                  src="https://images.unsplash.com/photo-1492538368677-f6e0afe31dcc?auto=format&fit=crop&w=1200&q=85"
+                  alt="Giảng đường đại học"
+                  loading="lazy"
+                />
+                <figcaption>Giảng đường thân thuộc</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <!-- ---------- ĐỊA ĐIỂM ---------- -->
+          <section id="location" class="location section">
+            <div class="section-heading">
+              <p class="section-kicker reveal-up">Địa điểm</p>
+              <h2 class="gold-text reveal-up">Đường đến</h2>
+              <div class="ornament reveal-up" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+            </div>
+
+            <figure class="map-card reveal-up">
+              <div class="map-frame">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7450.612378230677!2d105.87323077596876!3d20.98035998943775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135afd765487289%3A0x21bd5839ba683d5f!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBLaW5oIFThur8gS-G7uSBUaHXhuq10IEPDtG5nIE5naGnhu4dw!5e0!3m2!1svi!2s!4v1785648532518!5m2!1svi!2s"
+                  title="Bản đồ Trường Đại học Kinh tế - Kỹ thuật Công nghiệp"
+                  loading="lazy"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <figcaption>
+                <span>
+                  <b>Trường Đại học Kinh tế - Kỹ thuật Công nghiệp</b>
+                  Số 218 Lĩnh Nam, Hoàng Mai, Hà Nội
+                </span>
+                <a
+                  class="btn btn-ghost btn-sm magnetic"
+                  href="https://www.google.com/maps/search/?api=1&amp;query=Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20Kinh%20t%E1%BA%BF%20K%E1%BB%B9%20thu%E1%BA%ADt%20C%C3%B4ng%20nghi%E1%BB%87p%2C%20218%20L%C4%A9nh%20Nam%2C%20Ho%C3%A0ng%20Mai%2C%20H%C3%A0%20N%E1%BB%99i"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor="Bản đồ"
+                  ><span>Mở chỉ đường</span></a
+                >
+              </figcaption>
+            </figure>
+          </section>
+        </main>
+
+        <!-- ---------- FOOTER ---------- -->
+        <footer id="contact" class="site-footer">
+          <div class="footer-glow" aria-hidden="true"></div>
+          <div class="footer-main">
+            <div class="footer-copy">
+              <p class="script gold-text">Thank you!</p>
+              <strong>Rất hân hạnh được đón tiếp bạn.</strong>
+              <span>Vũ Khánh Ly · Class of 2026</span>
+            </div>
+
+            <address>
+              <a href="tel:0966071336" data-cursor="Gọi">
+                <i aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M6.6 4.6h2.9l1.2 3-1.6 1.3a12 12 0 0 0 5 5l1.3-1.6 3 1.2v2.9a1.5 1.5 0 0 1-1.6 1.5A13.6 13.6 0 0 1 5.1 6.2 1.5 1.5 0 0 1 6.6 4.6Z"
+                    />
+                  </svg>
+                </i>
+                <span><small>Điện thoại</small><b>0966 071 336</b></span>
+              </a>
+              <a href="mailto:vukhanhly0112@gmail.com" data-cursor="Mail">
+                <i aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3.6" y="5.6" width="16.8" height="12.8" rx="2" />
+                    <path d="m4.4 7 7.6 5.6L19.6 7" />
+                  </svg>
+                </i>
+                <span><small>Email</small><b>vukhanhly0112@gmail.com</b></span>
+              </a>
+            </address>
+
+            <div class="social-links" aria-label="Mạng xã hội">
+              <a
+                href="https://www.facebook.com/khanh.ly.01124"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook của Vũ Khánh Ly"
+                title="Nhắn tin qua Facebook"
+                data-cursor="Ghé"
+              >
+                <svg viewBox="0 0 24 24" class="icon-solid" aria-hidden="true">
+                  <path
+                    d="M13.6 21v-8h2.6l.4-3h-3V8.1c0-.9.3-1.5 1.5-1.5h1.6V3.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4V10H8v3h2.5v8h3.1Z"
+                  />
+                </svg>
+              </a>
+              <a href="tel:0966071336" aria-label="Gọi cho mình" title="Gọi cho mình" data-cursor="Gọi">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M6.6 4.6h2.9l1.2 3-1.6 1.3a12 12 0 0 0 5 5l1.3-1.6 3 1.2v2.9a1.5 1.5 0 0 1-1.6 1.5A13.6 13.6 0 0 1 5.1 6.2 1.5 1.5 0 0 1 6.6 4.6Z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="mailto:vukhanhly0112@gmail.com"
+                aria-label="Gửi email cho mình"
+                title="Gửi email cho mình"
+                data-cursor="Mail"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3.6" y="5.6" width="16.8" height="12.8" rx="2" />
+                  <path d="m4.4 7 7.6 5.6L19.6 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <p class="footer-fine">© 2026 · Graduation Ceremony · Made with love</p>
+        </footer>
+      </div>
+    </div>
+
+    <!-- ============ LIGHTBOX ============ -->
+    <div class="image-lightbox" id="imageLightbox" aria-hidden="true" role="dialog" aria-modal="true">
+      <button class="lightbox-close" id="closeLightbox" type="button" aria-label="Đóng ảnh">×</button>
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Ảnh trước">‹</button>
+      <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Ảnh sau">›</button>
+      <figure class="lightbox-stage">
+        <img id="lightboxImage" src="" alt="" />
+        <figcaption>
+          <span id="lightboxCaption"></span>
+          <b id="lightboxCounter"></b>
+        </figcaption>
+      </figure>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
