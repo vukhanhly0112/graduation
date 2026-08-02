@@ -884,7 +884,7 @@ body.cursor-hover .cursor-dot {
 }
 
 .gate-kicker {
-  margin-bottom: 6px;
+  margin-bottom: 16px;
   color: var(--muted);
   font-family: var(--sans);
   font-size: 0.64rem;
@@ -898,7 +898,7 @@ body.cursor-hover .cursor-dot {
   /* Chữ vàng tô bằng background-clip:text nên phần nét tràn ra ngoài khung sẽ
      mất màu. Great Vibes có nét G vươn rất cao và thòng rất sâu, phải nới khung
      bằng padding rồi trừ lại đúng chừng ấy margin để bố cục không xê dịch. */
-  margin: -0.26em 0 -0.11em;
+  margin: 0 0 2px;
   padding-block: 0.26em;
   font-family: var(--script);
   font-size: clamp(3.4rem, 9vw, 5.2rem);
